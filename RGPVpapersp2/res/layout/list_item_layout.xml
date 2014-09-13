@@ -7,14 +7,6 @@
     android:background="@color/light_gray"
     android:padding="@dimen/list_item_padding" >
 
-    <ImageView
-        android:id="@+id/imageView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:src="@drawable/ic_launcher" />
-
     <TextView
         android:id="@+id/year"
         android:layout_width="wrap_content"
@@ -32,6 +24,7 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
         android:layout_alignTop="@+id/year"
         android:layout_toRightOf="@+id/year"
         android:orientation="vertical" >
