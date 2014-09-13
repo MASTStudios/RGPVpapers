@@ -17,6 +17,10 @@ public class DatabaseHelper extends SQLiteAssetHelper {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 	}
 
+	public SQLiteDatabase getDatabase(){
+		return getReadableDatabase();
+	}
+	
 	public ArrayList<Paper> getPapersBySql(String query) {
 		SQLiteDatabase db = getReadableDatabase();
 		Cursor cus = db.rawQuery(query, null);

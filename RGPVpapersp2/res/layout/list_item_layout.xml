@@ -3,8 +3,8 @@
     android:id="@+id/RelativeLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
     android:background="@color/light_gray"
+    android:orientation="horizontal"
     android:padding="@dimen/list_item_padding" >
 
     <TextView
