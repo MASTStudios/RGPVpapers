@@ -22,6 +22,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.maststudios.rgpvpapersp2.PaperSelect"
+            android:label="@string/title_activity_paper_select" >
+        </activity>
     </application>
 
 </manifest>

@@ -6,22 +6,28 @@ var container=document.createElement("div");
 var tr;
 var month, year, monthset;
 document.body.appendChild(container);
-for(var i=0;i<20;i++){
+for(var i=0;i<arr.length;i++){
 	//in11=arr[i].in1nerHTML;
 	//console.log(arr[i].getElementsByTagName("span").length);
 	monthset=false;
 	tr=arr[i].parentNode;
-	console.log(arr[i].parentNode);
-	while(tr.tagName!="tr"){
+	//console.log(tr.tagName);
+	while(tr.tagName.toString()!="TR"){
 		tr=tr.parentNode;
 	}
-	if(tr.childNodes==4){
+	console.log(tr.getElementsByTagName("td").length);
+	console.log(tr.childNodes);
+	console.log(tr);
+	if(tr.getElementsByTagName("td").length==3){
 		year=tr.children[0].innerText;
+		console.log("Setting year to "+year);
 		if(!monthset){
 			month=tr.children[1].innerText;
+			console.log("Setting month to "+month);
 		}
 	}
-	if(tr.childNodes==3){
+	if(tr.getElementsByTagName("td").length==2){
+		console.log("Setting month to "+month);
 		month=tr.children[0].innerText;
 		monthset=true;
 	}
@@ -35,5 +41,7 @@ for(var i=0;i<20;i++){
 	}else{
 		alert("more than 2");
 	}
-console.log(container);
+
 }
+document.body.appendChild(container);
+//console.log(container);
