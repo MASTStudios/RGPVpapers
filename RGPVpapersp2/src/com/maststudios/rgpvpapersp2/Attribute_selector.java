@@ -10,8 +10,8 @@ public class Attribute_selector extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_attribute_selector);
-		DatabaseHelper dbh = new DatabaseHelper(getApplicationContext());
-		dbh.getPapersBySql("select * from papers");
+		//DatabaseHelper dbh = new DatabaseHelper(getApplicationContext());
+		//dbh.getPapersBySql("select * from papers");
 	}
 
 	@Override
@@ -19,7 +19,6 @@ public class Attribute_selector extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.attribute_selector, menu);
 		return true;
-		
 	}
 
 }

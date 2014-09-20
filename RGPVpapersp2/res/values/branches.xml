@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="branch">
+        <item>Civil</item>
+        <item>CS</item>
+        <item>EC</item>
+        <item>EE</item>
+        <item>IT</item>
+        <item>ME</item>
+    </string-array>
+    <string-array name="year">
+        <item>I</item>
+        <item>II</item>
+        <item>III</item>
+        <item>IV</item>
+    </string-array>
+</resources>

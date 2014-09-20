@@ -3,4 +3,5 @@
     <color name="dark_blue">#0099CC</color>
     <color name="white">#FFFFFF</color>
     <color name="light_gray">#EEEEEE</color>
+    <color name="action_bar">#0099CC</color>
 </resources>
