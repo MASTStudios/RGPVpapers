@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -18,13 +19,13 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 
-public class ListPapers extends Activity implements OnItemSelectedListener {
+public class ListPapers extends Activity implements OnItemSelectedListener,OnItemClickListener {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_list_papers);
-
+		
 		// adding the spinner adapter for action bar
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayShowTitleEnabled(false);
@@ -38,10 +39,12 @@ public class ListPapers extends Activity implements OnItemSelectedListener {
 		actionBar.setCustomView(R.layout.action_bar);
 		Spinner spin1 = (Spinner) findViewById(R.id.spinner1);
 		Spinner spin2 = (Spinner) findViewById(R.id.spinner2);
+		ListView listview=(ListView) findViewById(R.id.listView1);
 		spin1.setAdapter(sa1);
 		spin2.setAdapter(sa);
 		spin1.setOnItemSelectedListener(this);
 		spin2.setOnItemSelectedListener(this);
+		listview.setOnItemClickListener(this);
 	}
 
 	@Override
@@ -68,11 +71,11 @@ public class ListPapers extends Activity implements OnItemSelectedListener {
 
 		cursor = db.rawQuery(query, null);
 		cursor.moveToFirst();
-		while (cursor.moveToNext()) {
+		do {
 			details = cursor.getString(2) + "-" + cursor.getString(3) + "\nSource - " + cursor.getString(7);
 			Paper p = new Paper(cursor.getInt(0), cursor.getString(6), details, cursor.getString(1), true);
 			l.add(p);
-		}
+		}while (cursor.moveToNext());
 		return l;
 	}
 
@@ -99,6 +102,13 @@ public class ListPapers extends Activity implements OnItemSelectedListener {
 	public void onNothingSelected(AdapterView<?> parent) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		Intent intent=new Intent(this,Download.class);
+		intent.putExtra("id", id);
+		startActivity(intent);
 	}
 	
 

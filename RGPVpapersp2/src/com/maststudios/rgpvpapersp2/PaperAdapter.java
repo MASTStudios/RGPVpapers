@@ -32,7 +32,7 @@ public class PaperAdapter extends BaseAdapter {
 	@Override
 	public long getItemId(int position) {
 		Paper p=list.get(position);
-		return 0;
+		return p.getId();
 	}
 
 	@Override
@@ -41,7 +41,7 @@ public class PaperAdapter extends BaseAdapter {
 		View rowView = inflater.inflate(R.layout.list_item_layout, parent, false);
 		TextView heading = (TextView) rowView.findViewById(R.id.heading);
 		TextView detail = (TextView) rowView.findViewById(R.id.details);
-		TextView year = (TextView) rowView.findViewById(R.id.year);
+		TextView year = (TextView) rowView.findViewById(R.id.downloadYear);
 		heading.setText(list.get(position).getHeading());
 		detail.setText(list.get(position).getDetails());
 		year.setText(list.get(position).getYear());

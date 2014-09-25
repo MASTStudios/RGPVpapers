@@ -8,7 +8,7 @@
     android:padding="@dimen/list_item_padding" >
 
     <TextView
-        android:id="@+id/year"
+        android:id="@+id/downloadYear"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/year"
+        android:layout_toRightOf="@+id/downloadYear"
         android:orientation="vertical" >
 
         <TextView
