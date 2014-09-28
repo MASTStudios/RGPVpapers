@@ -54,12 +54,13 @@ public class Download extends Activity {
 		if (cursor.moveToFirst()) {
 			subjectName.setText(cursor.getString(6));
 			downloadYear.setText(cursor.getString(1));
+			System.out.println(cursor.getString(8));
 			webDownloadLink.setText(cursor.getString(8));
 			uri = Uri.parse(cursor.getString(4));
 			downloadTitle = cursor.getString(6) + "(" + cursor.getString(1) + ")";
 			file = new File(Environment.getExternalStorageDirectory()+cursor.getString(5));
 
-			if (file.exists()) {
+			if (file.exists()&&cursor.getString(5).compareTo("")!=0) {
 				downloadButton.setVisibility(android.view.View.GONE);
 				isDownloaded.setVisibility(android.view.View.GONE);
 				progressBar.setVisibility(android.view.View.GONE);

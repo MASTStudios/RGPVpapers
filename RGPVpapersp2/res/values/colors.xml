@@ -4,4 +4,5 @@
     <color name="white">#FFFFFF</color>
     <color name="light_gray">#EEEEEE</color>
     <color name="action_bar">#0099CC</color>
+    <color name="menu_bar">#33B5E5</color>
 </resources>

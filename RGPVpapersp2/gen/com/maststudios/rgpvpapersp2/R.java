@@ -18,6 +18,7 @@ public final class R {
         public static final int action_bar=0x7f050003;
         public static final int dark_blue=0x7f050000;
         public static final int light_gray=0x7f050002;
+        public static final int menu_bar=0x7f050004;
         public static final int white=0x7f050001;
     }
     public static final class dimen {
@@ -43,23 +44,22 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int RelativeLayout1=0x7f0a000d;
-        public static final int action_settings=0x7f0a0010;
-        public static final int details=0x7f0a000f;
-        public static final int downloadButton=0x7f0a0007;
-        public static final int downloadYear=0x7f0a0005;
-        public static final int heading=0x7f0a000e;
-        public static final int imageView1=0x7f0a0000;
-        public static final int isDownloaded=0x7f0a0006;
-        public static final int listView1=0x7f0a000c;
-        public static final int openButton=0x7f0a0008;
-        public static final int progressBar1=0x7f0a0009;
-        public static final int spinner1=0x7f0a0004;
-        public static final int spinner2=0x7f0a0002;
-        public static final int subjectName=0x7f0a0001;
-        public static final int textView2=0x7f0a0003;
-        public static final int webDownloadDescription=0x7f0a000a;
-        public static final int webDownloadLink=0x7f0a000b;
+        public static final int LinearLayout1=0x7f0a000a;
+        public static final int RelativeLayout1=0x7f0a000c;
+        public static final int action_settings=0x7f0a000f;
+        public static final int details=0x7f0a000e;
+        public static final int downloadButton=0x7f0a0005;
+        public static final int downloadYear=0x7f0a0003;
+        public static final int heading=0x7f0a000d;
+        public static final int isDownloaded=0x7f0a0004;
+        public static final int listView1=0x7f0a000b;
+        public static final int openButton=0x7f0a0006;
+        public static final int progressBar1=0x7f0a0007;
+        public static final int spinner1=0x7f0a0001;
+        public static final int spinner2=0x7f0a0000;
+        public static final int subjectName=0x7f0a0002;
+        public static final int webDownloadDescription=0x7f0a0008;
+        public static final int webDownloadLink=0x7f0a0009;
     }
     public static final class layout {
         public static final int action_bar=0x7f030000;
@@ -67,6 +67,10 @@ public final class R {
         public static final int activity_download=0x7f030002;
         public static final int activity_list_papers=0x7f030003;
         public static final int list_item_layout=0x7f030004;
+        public static final int menu_bar_background=0x7f030005;
+        public static final int rounded_border=0x7f030006;
+        public static final int spinner_drop_down=0x7f030007;
+        public static final int spinner_item=0x7f030008;
     }
     public static final class menu {
         public static final int attribute_selector=0x7f090000;
@@ -81,6 +85,7 @@ public final class R {
         public static final int title_activity_list_papers=0x7f070003;
     }
     public static final class style {
+        public static final int ActionBarStyle=0x7f080002;
         /** 
         Base application theme, dependent on API level. This theme is replaced
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
@@ -99,13 +104,21 @@ public final class R {
         Base application theme for API 14+. This theme completely replaces
         AppBaseTheme from BOTH res/values/styles.xml and
         res/values-v11/styles.xml on API 14+ devices.
+
+
     
- API 14 theme customizations can go here. 
+ <item name="android:windowContentOverlay">@null</item>
+        <item name="android:actionBarStyle">@style/ActionBarStyle</item>
+        
          */
         public static final int AppBaseTheme=0x7f080000;
         /**  Application theme. 
  All customizations that are NOT specific to a particular API-level can go here. 
          */
         public static final int AppTheme=0x7f080001;
+        public static final int MenuBarStyle=0x7f080003;
+        public static final int MenuBarTitleStyle=0x7f080004;
+        public static final int spinnerDropdownStyle=0x7f080006;
+        public static final int spinnerStyle=0x7f080005;
     }
 }
