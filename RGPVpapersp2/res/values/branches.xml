@@ -8,10 +8,14 @@
         <item>IT</item>
         <item>MECH.</item>
     </string-array>
-    <string-array name="year">
-        <item>First Year</item>
-        <item>Second Year</item>
-        <item>Third Year</item>
-        <item>Final Year</item>
+    <string-array name="semester">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
     </string-array>
 </resources>

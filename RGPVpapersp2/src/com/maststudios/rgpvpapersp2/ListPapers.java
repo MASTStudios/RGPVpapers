@@ -11,11 +11,14 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
@@ -23,65 +26,79 @@ import android.widget.SpinnerAdapter;
 public class ListPapers extends Activity implements OnItemSelectedListener, OnItemClickListener {
 
 	SharedPreferences sharedPreferences;
+	String selectedSemester, selectedBranch;
+	int selectedSubjectPosition, selectedSubjectId;
+	SpinnerAdapter sa,sa1,sa2;
+	DatabaseHelper databaseHelper;
+	SQLiteDatabase db;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_list_papers);
 		sharedPreferences = getSharedPreferences("RGPVPapers", MODE_PRIVATE);
-
-		// adding the spinner adapter for action bar
-		ActionBar actionBar = getActionBar();
-		actionBar.setDisplayShowTitleEnabled(false);
-		actionBar.setDisplayShowCustomEnabled(true);
-		actionBar.setDisplayUseLogoEnabled(false);
-		// actionBar.setDisplayShowHomeEnabled(false);
-
-		SpinnerAdapter sa = ArrayAdapter.createFromResource(this, R.array.branch, android.R.layout.simple_list_item_1);
-		SpinnerAdapter sa1 = ArrayAdapter.createFromResource(this, R.array.year, android.R.layout.simple_list_item_1);
-		// ((ArrayAdapter)
-		// sa).setDropDownViewResource(R.layout.spinner_drop_down);
-		// ((ArrayAdapter)
-		// sa1).setDropDownViewResource(R.layout.spinner_drop_down);
-		// actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-		actionBar.setCustomView(R.layout.action_bar);
+		
+		//initializing database
+		db = databaseHelper.getReadableDatabase();
+		databaseHelper = new DatabaseHelper(this);
+		
+		//initializing spinners
+		sa = ArrayAdapter.createFromResource(this, R.array.branch, android.R.layout.simple_list_item_1);
+		sa1 = ArrayAdapter.createFromResource(this, R.array.semester, android.R.layout.simple_list_item_1);
+		sa2 = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1);
 		Spinner spin1 = (Spinner) findViewById(R.id.spinner1);
 		Spinner spin2 = (Spinner) findViewById(R.id.spinner2);
-		ListView listview = (ListView) findViewById(R.id.listView1);
+		Spinner spin3 = (Spinner) findViewById(R.id.spinner3);
 		spin1.setAdapter(sa1);
 		spin2.setAdapter(sa);
+		spin3.setAdapter(sa2);
+		
+		//adding on click listeners to spinners
 		spin1.setOnItemSelectedListener(this);
 		spin2.setOnItemSelectedListener(this);
-		listview.setOnItemClickListener(this);
-		spin1.setSelection(sharedPreferences.getInt("year", 0));
+		
+		//initialing spinner values through shared preferences
+		spin1.setSelection(sharedPreferences.getInt("semester", 0));
 		spin2.setSelection(sharedPreferences.getInt("branch", 0));
+		
+		//adding on click listener to listview
+		ListView listview = (ListView) findViewById(R.id.listView1);
+		listview.setOnItemClickListener(this);
+		
+		//adding values to selectedBranch etc
+		selectedSemester=(String) sa1.getItem(sharedPreferences.getInt("semester", 0));
+		selectedBranch=(String) sa1.getItem(sharedPreferences.getInt("branch", 0));
+		selectedSubjectId=sharedPreferences.getInt("subjectid", 0);
+		selectedSubjectPosition=sharedPreferences.getInt("subjectPosition", 0);
+		
+		//updating the subjects list according to the selected branch and semester
+		updateSubjects();
+		
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.list_papers, menu);
-		return true;
+		return super.onCreateOptionsMenu(menu);
 	}
 
-	public List<Paper> getList(String branch, String year, String subject) {
+	// gets the list pf papers based on the branch semester and subject
+	public List<Paper> getList(String branch, String semester, String subject) {
 		List<Paper> l = new ArrayList<Paper>();
 		Cursor cursor;
-		DatabaseHelper databaseHelper = new DatabaseHelper(this);
-		SQLiteDatabase db = databaseHelper.getReadableDatabase();
 		String details;
 
 		// creating query
 		String query = "select * from papers where ''='' ";
 		// query=query+"year='"+year+"'";
-		if (year.compareTo("First Year") != 0) {
+		if (semester.compareTo("First Year") != 0) {
 			query = query + "and branch='" + branch + "'";
-		}else{
+		} else {
 			query = "select * from papers";
 		}
 		// TODO add subject here
 
-		cursor = db.rawQuery(query, null);
+		cursor = db.rawQuery("select * from papers", null);
 		cursor.moveToFirst();
 		do {
 			details = cursor.getString(2) + "-" + cursor.getString(3) + "\nSource - " + cursor.getString(7);
@@ -90,9 +107,26 @@ public class ListPapers extends Activity implements OnItemSelectedListener, OnIt
 		} while (cursor.moveToNext());
 		return l;
 	}
-
+	
+	//upadtes the subjects in the spinners based on the selected branch and semester
+	public void updateSubjects(){
+		int subjectCode;
+		Cursor cursor, cursor1;
+		List<String> list=new ArrayList<String>();
+		
+		cursor=db.rawQuery("select subjectCode from subject_branch where branch='"+selectedBranch+"' and semester='"+selectedSemester+"'",null);
+		cursor.moveToFirst();
+		do{
+			cursor1=db.rawQuery("select * from subject where subjectCode = '"+cursor.getString(0)+"'", null);
+			list.add(cursor1.getString(1));
+		}while(cursor.moveToNext());
+		sa2=new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, list);
+	}
+	
+	// updates the list based on the values of the class variables
+	// selectedBranch etc.
 	public void updateList() {
-		String branch, year, subject;
+		String branch, year, subject, subjectCode;
 		ListView listview = (ListView) findViewById(R.id.listView1);
 		Spinner spin1 = (Spinner) findViewById(R.id.spinner1);
 		Spinner spin2 = (Spinner) findViewById(R.id.spinner2);
@@ -127,4 +161,26 @@ public class ListPapers extends Activity implements OnItemSelectedListener, OnIt
 		startActivity(intent);
 	}
 
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle presses on the action bar items
+		switch (item.getItemId()) {
+		case R.id.action_search:
+			((LinearLayout) findViewById(R.id.searchmenu)).setVisibility(android.view.View.VISIBLE);
+			return true;
+		case R.id.action_share:
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
+
+	public void cancelSearch(View view) {
+		((LinearLayout) findViewById(R.id.searchmenu)).setVisibility(android.view.View.GONE);
+	}
+
+	public void Search(View view) {
+		DatabaseHelper db = new DatabaseHelper(this);
+
+	}
 }

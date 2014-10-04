@@ -5,14 +5,14 @@
     android:gravity="center_vertical"
     android:orientation="horizontal" >
 
-<!--     <TextView
+<TextView
         android:id="@+id/subjectName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:layout_marginStart="@dimen/activity_horizontal_margin"
-        android:text="Branch" />-->
+        android:text="Branch" />
 
     <Spinner
         android:id="@+id/spinner2"

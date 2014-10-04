@@ -13,14 +13,11 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:background="@android:color/holo_blue_bright"
+        android:textColor="@android:color/holo_blue_bright"
         android:gravity="center_vertical|center_horizontal"
         android:padding="@dimen/list_item_padding"
         android:text="2014"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="@color/white"
-        android:width="@dimen/year_block_side"
-    	android:height="@dimen/year_block_side" />
+        android:textAppearance="?android:attr/textAppearanceLarge"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
