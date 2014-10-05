@@ -86,10 +86,10 @@ public class ListPapers extends Activity implements OnItemSelectedListener, OnIt
 
 	@Override
 	protected void onResume() {
-		//AdView adView = (AdView) this.findViewById(R.id.adView);
-		//AdRequest adRequest = new AdRequest.Builder().build();
-		// Load ads into Banner Ads
-		//adView.loadAd(adRequest);
+		AdView adView = (AdView) this.findViewById(R.id.adView);
+		AdRequest adRequest = new AdRequest.Builder().build();
+		//Load ads into Banner Ads
+		adView.loadAd(adRequest);
 		
 		super.onResume();
 		updateList();

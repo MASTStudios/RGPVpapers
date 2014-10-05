@@ -1,13 +1,6 @@
 package com.maststudios.rgpvpapers;
 
 import java.io.File;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
-
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.InterstitialAd;
 
 import android.app.Activity;
 import android.app.DownloadManager;
@@ -20,7 +13,6 @@ import android.content.IntentFilter;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
-import android.opengl.Visibility;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.Menu;
@@ -29,6 +21,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
 
 public class Download extends Activity {
 
@@ -43,12 +40,16 @@ public class Download extends Activity {
 		setContentView(R.layout.activity_download);
 
 		interstitial = new InterstitialAd(this);
+		interstitial.setAdUnitId("ca-app-pub-7460320732883199/4215371418");
 
 		// populating data on the screen got id and getting everyting from the
 		// database
 		DatabaseHelper databaseHelper = new DatabaseHelper(this);
 		SQLiteDatabase db = databaseHelper.getReadableDatabase();
-		Cursor cursor = db.rawQuery("select * from papers join subject on papers.subjectCode=subject.subjectCode where id='" + getIntent().getLongExtra("id", 0) + "'", null);
+		Cursor cursor = db
+				.rawQuery(
+						"select * from papers join subject on papers.subjectCode=subject.subjectCode where id='"
+								+ getIntent().getLongExtra("id", 0) + "'", null);
 
 		TextView subjectName = (TextView) findViewById(R.id.subjectName);
 		TextView downloadYear = (TextView) findViewById(R.id.downloadYear);
@@ -63,14 +64,17 @@ public class Download extends Activity {
 			downloadYear.setText(cursor.getString(1));
 			webDownloadLink.setText(cursor.getString(6));
 			uri = Uri.parse(cursor.getString(3));
-			downloadTitle = cursor.getString(8) + "(" + cursor.getString(1) + ")";
-			file = new File(Environment.getExternalStorageDirectory() + cursor.getString(4));
+			downloadTitle = cursor.getString(8) + "(" + cursor.getString(1)
+					+ ")";
+			file = new File(Environment.getExternalStorageDirectory()
+					+ cursor.getString(4));
 
 			if (file.exists() && cursor.getString(4).compareTo("") != 0) {
 				downloadButton.setVisibility(android.view.View.GONE);
 				isDownloaded.setVisibility(android.view.View.GONE);
 				progressBar.setVisibility(android.view.View.GONE);
-				isDownloaded.setText("The paper is already downloaded on your device. Click the button to open it.");
+				isDownloaded
+						.setText("The paper is already downloaded on your device. Click the button to open it.");
 			} else {
 				isDownloaded.setVisibility(android.view.View.GONE);
 				openButton.setVisibility(android.view.View.GONE);
@@ -87,9 +91,21 @@ public class Download extends Activity {
 		AdRequest adRequest = new AdRequest.Builder().build();
 		// Load ads into Banner Ads
 		adView.loadAd(adRequest);
-		interstitial.setAdUnitId("ca-app-pub-7460320732883199/4215371418");
 		interstitial.loadAd(adRequest);
+		interstitial.setAdListener(new AdListener() {
+			public void onAdLoaded() {
+				// Call displayInterstitial() function
+				displayInterstitial();
+			}
+		});
 		super.onResume();
+	}
+
+	public void displayInterstitial() {
+		// If Ads are loaded, show Interstitial else show nothing.
+		if (interstitial.isLoaded()) {
+			interstitial.show();
+		}
 	}
 
 	// open paper if already downloaded
@@ -125,9 +141,12 @@ public class Download extends Activity {
 
 					Cursor cursor = dm.query(q);
 					cursor.moveToFirst();
-					int bytes_downloaded = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR));
-					int bytes_total = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES));
-					if (cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS)) == DownloadManager.STATUS_SUCCESSFUL) {
+					int bytes_downloaded = cursor.getInt(cursor
+							.getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR));
+					int bytes_total = cursor.getInt(cursor
+							.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES));
+					if (cursor.getInt(cursor
+							.getColumnIndex(DownloadManager.COLUMN_STATUS)) == DownloadManager.STATUS_SUCCESSFUL) {
 						downloading = false;
 					}
 					final double dl_progress = (((double) bytes_downloaded) / ((double) bytes_total)) * 100;
@@ -158,33 +177,44 @@ public class Download extends Activity {
 					// getting the download id of the download that was
 					// completed
 					System.out.println("receieved intent 1");
-					long downloadId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, 0);
+					long downloadId = intent.getLongExtra(
+							DownloadManager.EXTRA_DOWNLOAD_ID, 0);
 					Query query = new Query();
 					query.setFilterById(downloadId);
 					Cursor c = dm.query(query);
 					if (c.moveToFirst()) {
-						int columnIndex = c.getColumnIndex(DownloadManager.COLUMN_STATUS);
+						int columnIndex = c
+								.getColumnIndex(DownloadManager.COLUMN_STATUS);
 						System.out.println("receieved intent 1");
 
-						if (DownloadManager.STATUS_SUCCESSFUL == c.getInt(columnIndex)) {
+						if (DownloadManager.STATUS_SUCCESSFUL == c
+								.getInt(columnIndex)) {
 
 							System.out.println("Download complete");
 
 							// uristring contains the location of the file
 							// that is saved
-							String uriString = c.getString(c.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI));
+							String uriString = c
+									.getString(c
+											.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI));
 
 							// upadting the database with the location of
 							// the saved file
-							DatabaseHelper databaseHelper = new DatabaseHelper(context);
-							SQLiteDatabase db = databaseHelper.getReadableDatabase();
-							db.execSQL("UPDATE papers set localURL ='/RGPV-Papers/" + id + ".pdf' where id= " + id);
+							DatabaseHelper databaseHelper = new DatabaseHelper(
+									context);
+							SQLiteDatabase db = databaseHelper
+									.getReadableDatabase();
+							db.execSQL("UPDATE papers set localURL ='/RGPV-Papers/"
+									+ id + ".pdf' where id= " + id);
 							db.close();
 							unregisterReceiver(this);
-							File f = new File(Environment.getExternalStorageDirectory() + "/RGPV-Papers/" + id + ".pdf");
+							File f = new File(
+									Environment.getExternalStorageDirectory()
+											+ "/RGPV-Papers/" + id + ".pdf");
 							// System.out.println(Environment.getExternalStorageDirectory()
 							// + getIntent().getStringExtra("link"));
-							Intent intent1 = new Intent(Intent.ACTION_VIEW, Uri.fromFile(f));
+							Intent intent1 = new Intent(Intent.ACTION_VIEW,
+									Uri.fromFile(f));
 							startActivity(intent1);
 							finish();
 						}
@@ -192,7 +222,8 @@ public class Download extends Activity {
 				}
 			}
 		};
-		registerReceiver(receiver, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+		registerReceiver(receiver, new IntentFilter(
+				DownloadManager.ACTION_DOWNLOAD_COMPLETE));
 	}
 
 	@Override
