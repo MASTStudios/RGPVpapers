@@ -41,7 +41,7 @@ public class Download extends Activity {
 		// database
 		DatabaseHelper databaseHelper = new DatabaseHelper(this);
 		SQLiteDatabase db = databaseHelper.getReadableDatabase();
-		Cursor cursor = db.rawQuery("select * from papers where id='" + getIntent().getLongExtra("id", 0) + "'", null);
+		Cursor cursor = db.rawQuery("select * from papers join subject on papers.subjectCode=subject.subjectCode where id='" + getIntent().getLongExtra("id", 0) + "'", null);
 
 		TextView subjectName = (TextView) findViewById(R.id.subjectName);
 		TextView downloadYear = (TextView) findViewById(R.id.downloadYear);
@@ -52,15 +52,14 @@ public class Download extends Activity {
 		ProgressBar progressBar=(ProgressBar) findViewById(R.id.progressBar1);
 
 		if (cursor.moveToFirst()) {
-			subjectName.setText(cursor.getString(6));
+			subjectName.setText(cursor.getString(8));
 			downloadYear.setText(cursor.getString(1));
-			System.out.println(cursor.getString(8));
-			webDownloadLink.setText(cursor.getString(8));
-			uri = Uri.parse(cursor.getString(4));
-			downloadTitle = cursor.getString(6) + "(" + cursor.getString(1) + ")";
-			file = new File(Environment.getExternalStorageDirectory()+cursor.getString(5));
+			webDownloadLink.setText(cursor.getString(6));
+			uri = Uri.parse(cursor.getString(3));
+			downloadTitle = cursor.getString(8) + "(" + cursor.getString(1) + ")";
+			file = new File(Environment.getExternalStorageDirectory()+cursor.getString(4));
 
-			if (file.exists()&&cursor.getString(5).compareTo("")!=0) {
+			if (file.exists()&&cursor.getString(4).compareTo("")!=0) {
 				downloadButton.setVisibility(android.view.View.GONE);
 				isDownloaded.setVisibility(android.view.View.GONE);
 				progressBar.setVisibility(android.view.View.GONE);
@@ -72,6 +71,7 @@ public class Download extends Activity {
 		} else {
 			// TODO handle error here
 		}
+		db.close();
 	}
 
 	// open paper if already downloaded
@@ -160,7 +160,7 @@ public class Download extends Activity {
 							// the saved file
 							DatabaseHelper databaseHelper = new DatabaseHelper(context);
 							SQLiteDatabase db = databaseHelper.getReadableDatabase();
-							db.execSQL("UPDATE papers set LocalURI ='/RGPV-Papers/" + id + ".pdf' where id= " + id);
+							db.execSQL("UPDATE papers set localURL ='/RGPV-Papers/" + id + ".pdf' where id= " + id);
 							db.close();
 							unregisterReceiver(this);
 							File f = new File(Environment.getExternalStorageDirectory() + "/RGPV-Papers/" + id + ".pdf");

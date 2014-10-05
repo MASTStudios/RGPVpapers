@@ -41,21 +41,24 @@ public final class R {
         public static final int year_block_side=0x7f060003;
     }
     public static final class drawable {
-        public static final int ic_launcher=0x7f020000;
+        public static final int ic_action_search=0x7f020000;
+        public static final int ic_action_share=0x7f020001;
+        public static final int ic_launcher=0x7f020002;
     }
     public static final class id {
         public static final int LinearLayout1=0x7f0a000a;
         public static final int RelativeLayout1=0x7f0a0013;
-        public static final int action_search=0x7f0a0017;
-        public static final int action_settings=0x7f0a0016;
-        public static final int action_share=0x7f0a0018;
+        public static final int action_search=0x7f0a0018;
+        public static final int action_settings=0x7f0a0017;
+        public static final int action_share=0x7f0a0019;
         public static final int button1=0x7f0a0010;
         public static final int button2=0x7f0a0011;
-        public static final int details=0x7f0a0015;
+        public static final int details=0x7f0a0016;
         public static final int downloadButton=0x7f0a0005;
         public static final int downloadYear=0x7f0a0003;
-        public static final int heading=0x7f0a0014;
+        public static final int heading=0x7f0a0015;
         public static final int isDownloaded=0x7f0a0004;
+        public static final int linearLayout1=0x7f0a0014;
         public static final int listView1=0x7f0a0012;
         public static final int openButton=0x7f0a0006;
         public static final int progressBar1=0x7f0a0007;

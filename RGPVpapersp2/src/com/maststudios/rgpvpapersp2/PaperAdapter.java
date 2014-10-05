@@ -42,9 +42,15 @@ public class PaperAdapter extends BaseAdapter {
 		TextView heading = (TextView) rowView.findViewById(R.id.heading);
 		TextView detail = (TextView) rowView.findViewById(R.id.details);
 		TextView year = (TextView) rowView.findViewById(R.id.downloadYear);
+		TextView isDownloaded = (TextView) rowView.findViewById(R.id.isDownloaded);
 		heading.setText(list.get(position).getHeading());
 		detail.setText(list.get(position).getDetails());
 		year.setText(list.get(position).getYear());
+		if(list.get(position).isDownloaded()){
+			isDownloaded.setVisibility(android.view.View.VISIBLE);
+		}else{
+			isDownloaded.setVisibility(android.view.View.GONE);
+		}
 		return rowView;
 	}
 
