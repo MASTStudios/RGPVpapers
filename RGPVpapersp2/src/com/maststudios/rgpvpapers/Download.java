@@ -5,6 +5,9 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
 
 import android.app.Activity;
 import android.app.DownloadManager;
@@ -32,11 +35,14 @@ public class Download extends Activity {
 	private Uri uri;
 	private String downloadTitle;
 	private File file;
+	private InterstitialAd interstitial;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_download);
+
+		interstitial = new InterstitialAd(this);
 
 		// populating data on the screen got id and getting everyting from the
 		// database
@@ -50,7 +56,7 @@ public class Download extends Activity {
 		TextView webDownloadLink = (TextView) findViewById(R.id.webDownloadLink);
 		Button downloadButton = (Button) findViewById(R.id.downloadButton);
 		Button openButton = (Button) findViewById(R.id.openButton);
-		ProgressBar progressBar=(ProgressBar) findViewById(R.id.progressBar1);
+		ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar1);
 
 		if (cursor.moveToFirst()) {
 			subjectName.setText(cursor.getString(8));
@@ -58,9 +64,9 @@ public class Download extends Activity {
 			webDownloadLink.setText(cursor.getString(6));
 			uri = Uri.parse(cursor.getString(3));
 			downloadTitle = cursor.getString(8) + "(" + cursor.getString(1) + ")";
-			file = new File(Environment.getExternalStorageDirectory()+cursor.getString(4));
+			file = new File(Environment.getExternalStorageDirectory() + cursor.getString(4));
 
-			if (file.exists()&&cursor.getString(4).compareTo("")!=0) {
+			if (file.exists() && cursor.getString(4).compareTo("") != 0) {
 				downloadButton.setVisibility(android.view.View.GONE);
 				isDownloaded.setVisibility(android.view.View.GONE);
 				progressBar.setVisibility(android.view.View.GONE);
@@ -73,6 +79,17 @@ public class Download extends Activity {
 			// TODO handle error here
 		}
 		db.close();
+	}
+
+	@Override
+	protected void onResume() {
+		AdView adView = (AdView) this.findViewById(R.id.adView1);
+		AdRequest adRequest = new AdRequest.Builder().build();
+		// Load ads into Banner Ads
+		adView.loadAd(adRequest);
+		interstitial.setAdUnitId("ca-app-pub-7460320732883199/4215371418");
+		interstitial.loadAd(adRequest);
+		super.onResume();
 	}
 
 	// open paper if already downloaded
@@ -91,7 +108,7 @@ public class Download extends Activity {
 		request.setTitle(downloadTitle);
 		request.setDestinationInExternalPublicDir("/RGPV-Papers", id + ".pdf");
 		System.out.println("created request");
-		
+
 		final DownloadManager dm = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
 		final long downloadId = dm.enqueue(request);
 		final ProgressBar pb = (ProgressBar) findViewById(R.id.progressBar1);

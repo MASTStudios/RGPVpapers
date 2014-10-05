@@ -1,20 +1,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/LinearLayout1"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:animateLayoutChanges="true"
     android:divider="@android:drawable/divider_horizontal_dark"
     android:fadingEdge="horizontal"
     android:orientation="vertical"
     android:padding="0dp"
-    android:animateLayoutChanges="true"
     tools:context="com.maststudios.rgpvpapers.ListPapers" >
 
     <LinearLayout
         android:id="@+id/searchmenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical" >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -44,7 +45,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
-
         </LinearLayout>
 
         <LinearLayout
@@ -68,7 +68,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
-
         </LinearLayout>
 
         <LinearLayout
@@ -90,7 +89,6 @@
                 android:layout_height="wrap_content"
                 android:onClick="cancelSearch"
                 android:text="Hide" />
-
         </LinearLayout>
 
         <LinearLayout
@@ -99,8 +97,14 @@
             android:background="@android:color/holo_blue_bright"
             android:orientation="vertical" >
         </LinearLayout>
-
     </LinearLayout>
+
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-7460320732883199/3755457018" />
 
     <ListView
         android:id="@+id/listView1"

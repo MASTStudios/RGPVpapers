@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
@@ -83,6 +86,11 @@ public class ListPapers extends Activity implements OnItemSelectedListener, OnIt
 
 	@Override
 	protected void onResume() {
+		//AdView adView = (AdView) this.findViewById(R.id.adView);
+		//AdRequest adRequest = new AdRequest.Builder().build();
+		// Load ads into Banner Ads
+		//adView.loadAd(adRequest);
+		
 		super.onResume();
 		updateList();
 	}
@@ -95,9 +103,7 @@ public class ListPapers extends Activity implements OnItemSelectedListener, OnIt
 
 		Intent shareIntent = new Intent(Intent.ACTION_SEND);
 		shareIntent.setType("text/*");
-		shareIntent
-				.putExtra(Intent.EXTRA_TEXT,
-						"Abe sun! ye app se RGPV ke purane papers mil rahe hai... download kar le https://play.google.com/store/apps/details?id=com.maststudios.rgpvpapers");
+		shareIntent.putExtra(Intent.EXTRA_TEXT, "Abe sun! ye app se RGPV ke purane papers mil rahe hai... download kar le https://play.google.com/store/apps/details?id=com.maststudios.rgpvpapers");
 
 		mShareActionProvider.setShareIntent(shareIntent);
 		return super.onCreateOptionsMenu(menu);
