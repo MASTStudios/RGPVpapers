@@ -1,4 +1,4 @@
-package com.maststudios.rgpvpapersp2;
+package com.maststudios.rgpvpapers;
 
 import java.util.List;
 

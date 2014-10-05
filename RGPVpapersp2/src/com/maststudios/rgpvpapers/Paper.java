@@ -1,4 +1,4 @@
-package com.maststudios.rgpvpapersp2;
+package com.maststudios.rgpvpapers;
 
 public class Paper {
 	

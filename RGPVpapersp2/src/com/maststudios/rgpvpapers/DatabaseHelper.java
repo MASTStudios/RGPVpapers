@@ -1,10 +1,6 @@
-package com.maststudios.rgpvpapersp2;
-
-import java.util.ArrayList;
+package com.maststudios.rgpvpapers;
 
 import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 
 import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 

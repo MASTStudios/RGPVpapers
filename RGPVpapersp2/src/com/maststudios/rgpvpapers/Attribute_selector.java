@@ -1,4 +1,6 @@
-package com.maststudios.rgpvpapersp2;
+package com.maststudios.rgpvpapers;
+
+
 
 import android.os.Bundle;
 import android.app.Activity;

@@ -1,9 +1,10 @@
-package com.maststudios.rgpvpapersp2;
+package com.maststudios.rgpvpapers;
 
 import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+
 
 import android.app.Activity;
 import android.app.DownloadManager;

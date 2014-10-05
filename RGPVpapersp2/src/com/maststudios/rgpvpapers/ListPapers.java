@@ -1,9 +1,10 @@
-package com.maststudios.rgpvpapersp2;
+package com.maststudios.rgpvpapers;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
+
 
 import android.app.ActionBar;
 import android.app.Activity;
