@@ -9,7 +9,7 @@
         android:title="Search"/>
     <item
         android:id="@+id/action_share"
-        android:icon="@drawable/ic_action_share"
+        android:actionProviderClass="android.widget.ShareActionProvider"
         android:showAsAction="always"
         android:title="Share"/>
 

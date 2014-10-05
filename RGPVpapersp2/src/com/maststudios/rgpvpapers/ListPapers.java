@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
-
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
@@ -24,6 +23,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ShareActionProvider;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 
@@ -34,6 +34,7 @@ public class ListPapers extends Activity implements OnItemSelectedListener, OnIt
 	int selectedSubjectPosition, selectedSubjectId;
 	SpinnerAdapter sa, sa1, sa2;
 	Spinner spin1, spin2, spin3;
+	private ShareActionProvider mShareActionProvider;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +90,16 @@ public class ListPapers extends Activity implements OnItemSelectedListener, OnIt
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.list_papers, menu);
+		MenuItem item = menu.findItem(R.id.action_share);
+		mShareActionProvider = (ShareActionProvider) item.getActionProvider();
+
+		Intent shareIntent = new Intent(Intent.ACTION_SEND);
+		shareIntent.setType("text/*");
+		shareIntent
+				.putExtra(Intent.EXTRA_TEXT,
+						"Abe sun! ye app se RGPV ke purane papers mil rahe hai... download kar le https://play.google.com/store/apps/details?id=com.maststudios.rgpvpapers");
+
+		mShareActionProvider.setShareIntent(shareIntent);
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -239,7 +250,7 @@ public class ListPapers extends Activity implements OnItemSelectedListener, OnIt
 		case R.id.action_search:
 			if (((LinearLayout) findViewById(R.id.searchmenu)).getVisibility() == android.view.View.GONE) {
 				((LinearLayout) findViewById(R.id.searchmenu)).setVisibility(android.view.View.VISIBLE);
-			}else{
+			} else {
 				((LinearLayout) findViewById(R.id.searchmenu)).setVisibility(android.view.View.GONE);
 			}
 			return true;
@@ -251,7 +262,7 @@ public class ListPapers extends Activity implements OnItemSelectedListener, OnIt
 	}
 
 	public void cancelSearch(View view) {
-		((LinearLayout) findViewById(R.id.searchmenu)).setVisibility(android.view.View.GONE);	
+		((LinearLayout) findViewById(R.id.searchmenu)).setVisibility(android.view.View.GONE);
 	}
 
 	public void Search(View view) {
