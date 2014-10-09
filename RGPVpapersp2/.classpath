@@ -6,5 +6,7 @@
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
 	<classpathentry kind="lib" path="libs/sqliteassethelper-2.0.1.jar"/>
+	<classpathentry kind="lib" path="libs/InMobi-4.5.1.jar"/>
+	<classpathentry kind="lib" path="libs/libadapterinmobi.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

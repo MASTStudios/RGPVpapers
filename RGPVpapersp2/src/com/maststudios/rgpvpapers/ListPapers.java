@@ -231,6 +231,7 @@ public class ListPapers extends Activity implements OnItemSelectedListener, OnIt
 		} else if (((Spinner) findViewById(R.id.spinner3)).getSelectedItemPosition() > 0) {
 			selectedSubjectname = (String) ((Spinner) findViewById(R.id.spinner3)).getSelectedItem();
 			editor.putInt("subjectPosition", ((Spinner) findViewById(R.id.spinner3)).getSelectedItemPosition());
+			updateList();
 		}
 		editor.commit();
 	}

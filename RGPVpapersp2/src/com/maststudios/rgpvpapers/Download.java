@@ -41,6 +41,14 @@ public class Download extends Activity {
 
 		interstitial = new InterstitialAd(this);
 		interstitial.setAdUnitId("ca-app-pub-7460320732883199/4215371418");
+		AdRequest adRequest = new AdRequest.Builder().build();
+		interstitial.loadAd(adRequest);
+		interstitial.setAdListener(new AdListener() {
+			public void onAdLoaded() {
+				// Call displayInterstitial() function
+				displayInterstitial();
+			}
+		});
 
 		// populating data on the screen got id and getting everyting from the
 		// database
@@ -91,13 +99,7 @@ public class Download extends Activity {
 		AdRequest adRequest = new AdRequest.Builder().build();
 		// Load ads into Banner Ads
 		adView.loadAd(adRequest);
-		interstitial.loadAd(adRequest);
-		interstitial.setAdListener(new AdListener() {
-			public void onAdLoaded() {
-				// Call displayInterstitial() function
-				displayInterstitial();
-			}
-		});
+		
 		super.onResume();
 	}
 
