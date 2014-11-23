@@ -88,9 +88,9 @@ public class ListPapers extends Activity implements OnItemSelectedListener, OnIt
 	protected void onResume() {
 		AdView adView = (AdView) this.findViewById(R.id.adView);
 		AdRequest adRequest = new AdRequest.Builder().build();
-		//Load ads into Banner Ads
+		// Load ads into Banner Ads
 		adView.loadAd(adRequest);
-		
+
 		super.onResume();
 		updateList();
 	}
@@ -121,14 +121,31 @@ public class ListPapers extends Activity implements OnItemSelectedListener, OnIt
 		db = databaseHelper.getReadableDatabase();
 
 		// creating query
-		String query = "select * from papers where ''='' ";
+		String query = "select * from (papers join subject on subject.subjectCode=papers.subjectCode) join subject_branch on subject.subjectCode = subject_branch.subjectCode where ''='' ";
 		// query=query+"year='"+year+"'";
-		if (semester.compareTo("1") == 0 || semester.compareTo("2") == 0) {
-			query = "select * from papers where subjectCode in (select subjectCode from subject_branch where semester = '1' or semester = '2')";
-		} else {
-			query = "select * from papers join subject on subject.subjectCode=papers.subjectCode where papers.subjectCode in (select subjectCode from subject_branch where semester = '" + semester
-					+ "' and branch='" + branch + "') and subjectName='" + subject + "'";
+		if (semester.compareTo("All") != 0) {
+			query = query + "and semester ='" + semester + "' ";
 		}
+		if (branch.compareTo("All") != 0 && !(semester.compareTo("1") == 0 || semester.compareTo("2") == 0)) {
+			query = query + "and branch ='" + branch + "' ";
+		}
+		if (subject.compareTo("All") != 0) {
+			query = query + "and subjectName ='" + subject + "' ";
+		}
+
+		// if (semester.compareTo("1") == 0 || semester.compareTo("2") == 0) {
+		// query =
+		// "select * from papers where subjectCode in (select subjectCode from subject_branch where semester = '1' or semester = '2')";
+		// } else {
+		// query =
+		// "select * from papers join subject on subject.subjectCode=papers.subjectCode where papers.subjectCode in (select subjectCode from subject_branch where semester = '"
+		// + semester
+		// + "' and branch='" + branch + "') and subjectName='" + subject + "'";
+		// }
+
+		query=query + " order by calendarYear DESC";
+		
+		System.out.println(query);
 
 		cursor = db.rawQuery(query, null);
 		// System.out.println(query);
@@ -162,11 +179,15 @@ public class ListPapers extends Activity implements OnItemSelectedListener, OnIt
 
 		Cursor cursor;
 		List<String> list = new ArrayList<String>();
-
-		cursor = db.rawQuery("select subjectName from subject_branch join subject on subject_branch.subjectCode=subject.subjectCode where branch='" + selectedBranch + "' and semester='"
-				+ selectedSemester + "'", null);
-		// System.out.println("select subjectCode from subject_branch where branch='"
-		// + selectedBranch + "' and semester='" + selectedSemester + "'");
+		list.add("All");
+		String query = "select subjectName from subject_branch join subject on subject_branch.subjectCode=subject.subjectCode where ''='' ";
+		if (selectedBranch.compareTo("All") != 0) {
+			query=query+"and branch='" + selectedBranch+"' ";
+		}
+		if (selectedSemester.compareTo("All") != 0) {
+			query=query+"and semester='" + selectedSemester+"' ";
+		}
+		cursor = db.rawQuery(query, null);
 		if (cursor.moveToFirst()) {
 			do {
 				list.add(cursor.getString(0));
@@ -231,8 +252,10 @@ public class ListPapers extends Activity implements OnItemSelectedListener, OnIt
 		} else if (((Spinner) findViewById(R.id.spinner3)).getSelectedItemPosition() > 0) {
 			selectedSubjectname = (String) ((Spinner) findViewById(R.id.spinner3)).getSelectedItem();
 			editor.putInt("subjectPosition", ((Spinner) findViewById(R.id.spinner3)).getSelectedItemPosition());
-			updateList();
+
 		}
+		System.out.println(selectedBranch + "" + selectedSemester + "" + selectedSubjectname);
+		updateList();
 		editor.commit();
 	}
 
